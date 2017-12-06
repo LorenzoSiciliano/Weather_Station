@@ -6,6 +6,7 @@
     data: "json"
   })
   .done(function(response){
+    $("#loading").hide();
     allStationsNews = response;
     console.log(allStationsNews);
       for (var i = 0;i < allStationsNews.length; i++) {
