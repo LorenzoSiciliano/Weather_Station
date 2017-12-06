@@ -29,12 +29,8 @@
         $newAccordion.click(function(){
             this.classList.toggle("active");
             var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-                //(allStationsNews[i].station.webcam != null ? allStationsNews[i].station.webcam : ""));
-            }
+            var $panel = $(panel);
+            $panel.slideToggle("slow");
         });
         var $newStation = $("<div>");
         $newStation.addClass("panel");
