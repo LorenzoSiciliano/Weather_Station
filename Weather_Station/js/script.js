@@ -68,4 +68,44 @@
   });
 });
 
+$(document).ready(function(){
+  $("select #filter-country").change(function() {
+    var value = "";
+    $("select #filter-country option:selected").each(function() {
+      value += $( this ).text() + " ";
+        if ( value == "Italia"){
+        for (var j = 0; j < allStationsNews.length; j++) {
+          if (allStationsNews[j].station.nation.name == value) {
+            if($(".accordion").css("display","none")) {
+             $(".accordion").next().css("display","none");
+           }
+           $(".accordion").filter(function() {
+             $(this).text().toLowerCase().indexOf(value) > -1
+           });
+         }}}    }).trigger("change");
+});
+});
+
+$(document).ready(function(){
+$("#filter-country option:selected").click(function() {
+  var value = $(this).val();
+  if ( value == "Italia") {
+    for (var j = 0; j < allStationsNews.length; j++) {
+      if (allStationsNews[j].station.nation.name == value) {
+        if($(".accordion").css("display","none")) {
+         $(".accordion").next().css("display","none");
+       }
+   $(".accordion").filter(function() {
+     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+   });
+
+      }
+    }
+  }
+        else if (filterByCountry === "Svizzera") {}
+        else if (filterByCountry === "Francia") {}
+
+});
+});
+
 })()
