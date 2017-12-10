@@ -57,7 +57,7 @@
         var $stationInformation = $("<div>");
         $stationInformation.addClass("figcap");
         $newStation.append($stationInformation);
-        //setTimeout(update,5000);
+        setTimeout(update,30000);
     }
   })
   .fail(function(jqXHR, textStatus){
@@ -85,16 +85,17 @@ function update(){
     date = new Date();
     $("#time").text(date.toUTCString());
     allStationsNews = response;
-    var $accordions = $(".accodion");
+    var $accordions = $(".accordion");
+    console.log($accordions);
     var $panelInformation = $(".panel figcaption");
     var $panelInformationIcon = $(".panel figcaption img");
     for (var i = 0;i < allStationsNews.length; i++) {
-      $accordions[i].text(allStationsNews[i].station.name);
-      $panelInformation.text(allStationsNews[i].temperature + " °C ");
-      $panelInformationIcon.attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""));
+      $($accordions[i]).text(allStationsNews[i].station.name);
+      $($panelInformation[i]).text(allStationsNews[i].temperature + " °C ");
+      $($panelInformationIcon[i]).attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""));
     }
     if (!isStopped) {
-      setTimeout(update,5000);
+      setTimeout(update,30000);
     }
   })
   .fail(function(jqXHR, textStatus){
