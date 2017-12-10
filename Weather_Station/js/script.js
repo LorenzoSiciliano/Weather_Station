@@ -6,6 +6,7 @@
     data: "json"
   })
   .done(function(response){
+    $("#loading").hide();
     allStationsNews = response;
     console.log(allStationsNews);
       for (var i = 0;i < allStationsNews.length; i++) {
@@ -29,7 +30,14 @@
             this.classList.toggle("active");
             var panel = this.nextElementSibling;
             var $panel = $(panel);
-            $panel.slideToggle("slow");
+            if($panel.hasClass("open") == true){
+                $panel.stop();
+                $panel.removeClass("open");
+                $panel.slideUp("slow");
+            }  else {
+                $panel.addClass("open");
+                $panel.slideToggle("slow");
+              }
         });
         var $newStation = $("<div>");
         $newStation.addClass("panel");
