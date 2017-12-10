@@ -86,7 +86,6 @@ function update(){
     $("#time").text(date.toUTCString());
     allStationsNews = response;
     var $accordions = $(".accordion");
-    console.log($accordions);
     var $panelInformation = $(".panel figcaption");
     var $panelInformationIcon = $(".panel figcaption img");
     for (var i = 0;i < allStationsNews.length; i++) {
@@ -106,10 +105,10 @@ function update(){
 $("#pauseUpdate").click(function(){
     if (!isStopped) {
         isStopped = true;
-        console.log(isStooped);
+        console.log(isStopped);
     }else {
       isStopped = false;
-      console.log(isStooped);
+      console.log(isStopped);
       update();
     }
 });
