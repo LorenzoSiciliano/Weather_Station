@@ -52,11 +52,22 @@
         $stationImg = $("<img>");
         $stationImg.attr("src",(allStationsNews[i].station.webcam != "" ? allStationsNews[i].station.webcam : allStationsNews[i].station.image_url));
         $stationFigure.append($($stationImg));
+        var colorFigcaption = "";
+        if (allStationsNews[i].temperature > 10) {
+            colorFigcaption = "red";
+        }
+        else {
+          colorFigcaption = "#90b4ed";
+        }
         $stationFigure.append($("<figcaption>").text(allStationsNews[i].temperature + " °C ")
+                                                .css("color",colorFigcaption)
                                             .append($("<img>").attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""))));
+
         var $stationInformation = $("<div>");
         $stationInformation.addClass("figcap");
         $newStation.append($stationInformation);
+        $newStation.append($("<div>").html("City: " + allStationsNews[i].station.city+"<br>Province : " + allStationsNews[i].station.province.name + "<br>Region : " +allStationsNews[i].station.region.name + "<br>Nation : "+allStationsNews[i].station.nation.name)
+                                      .addClass("nationInformation"));
         setTimeout(update,30000);
     }
   })
@@ -88,10 +99,18 @@ function update(){
     var $accordions = $(".accordion");
     var $panelInformation = $(".panel figcaption");
     var $panelInformationIcon = $(".panel figcaption img");
+    var $nationInformation = $("nationInformation");
     for (var i = 0;i < allStationsNews.length; i++) {
       $($accordions[i]).text(allStationsNews[i].station.name);
       $($panelInformation[i]).text(allStationsNews[i].temperature + " °C ");
+      if (allStationsNews[i].temperature > 10) {
+          $($panelInformation[i]).css("color","red");
+      }
+      else {
+        $($panelInformation[i]).css("color","#90b4ed");
+      }
       $($panelInformationIcon[i]).attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""));
+      $nationInformation.html("City: " + allStationsNews[i].station.city+"<br>Province : " + allStationsNews[i].station.province.name + "<br>Region : " +allStationsNews[i].station.region.name + "<br>Nation : "+allStationsNews[i].station.nation.name);
     }
     if (!isStopped) {
       setTimeout(update,30000);
