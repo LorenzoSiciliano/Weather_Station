@@ -33,10 +33,11 @@
             if($panel.hasClass("open") == true){
                 $panel.stop();
                 $panel.removeClass("open");
-                $panel.slideUp("slow");
+                $panel.slideUp();
             }  else {
+                $panel.stop();
                 $panel.addClass("open");
-                $panel.slideToggle("slow");
+                $panel.slideToggle();
               }
         });
         var $newStation = $("<div>");
