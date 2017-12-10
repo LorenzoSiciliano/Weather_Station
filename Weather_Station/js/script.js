@@ -1,5 +1,9 @@
 (function(){
+  //indicates if the update is paused or not
+  var isStopped = false;
   var allStationsNews = {};
+  var date = new Date();
+  $("#time").text(date.toUTCString());
   $.ajax({
     method: "GET",
     url : "https://www.torinometeo.org/api/v1/realtime/data/",
@@ -30,12 +34,11 @@
             this.classList.toggle("active");
             var panel = this.nextElementSibling;
             var $panel = $(panel);
+            $panel.stop();
             if($panel.hasClass("open") == true){
-                $panel.stop();
                 $panel.removeClass("open");
                 $panel.slideUp();
             }  else {
-                $panel.stop();
                 $panel.addClass("open");
                 $panel.slideToggle();
               }
@@ -54,6 +57,7 @@
         var $stationInformation = $("<div>");
         $stationInformation.addClass("figcap");
         $newStation.append($stationInformation);
+        //setTimeout(update,5000);
     }
   })
   .fail(function(jqXHR, textStatus){
@@ -71,5 +75,41 @@
     });*/
   });
 });
+function update(){
+  $.ajax({
+    method: "GET",
+    url : "https://www.torinometeo.org/api/v1/realtime/data/",
+    data: "json"
+  })
+  .done(function(response){
+    date = new Date();
+    $("#time").text(date.toUTCString());
+    allStationsNews = response;
+    var $accordions = $(".accodion");
+    var $panelInformation = $(".panel figcaption");
+    var $panelInformationIcon = $(".panel figcaption img");
+    for (var i = 0;i < allStationsNews.length; i++) {
+      $accordions[i].text(allStationsNews[i].station.name);
+      $panelInformation.text(allStationsNews[i].temperature + " °C ");
+      $panelInformationIcon.attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""));
+    }
+    if (!isStopped) {
+      setTimeout(update,5000);
+    }
+  })
+  .fail(function(jqXHR, textStatus){
+    alert('Request failed: ' + textStatus);
+  });
+}
 
+$("#pauseUpdate").click(function(){
+    if (!isStopped) {
+        isStopped = true;
+        console.log(isStooped);
+    }else {
+      isStopped = false;
+      console.log(isStooped);
+      update();
+    }
+});
 })()

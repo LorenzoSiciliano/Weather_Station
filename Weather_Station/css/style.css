@@ -26,6 +26,7 @@ body {
 .filter {
 	background-color: #000080;
 	padding: 15px;
+	position: relative;
 }
 
 #filter-station {
@@ -52,15 +53,22 @@ body {
 .filter > button {
 	background-color: #120A8F;
 	border-radius: 10px;
-	float: right;
 	width: 50px;
 	margin-right: 80px;
+	position: absolute;
+	right: -50px;
+	top: 15px;
 }
 .filter > button > img {
 	height: 30px;
 	width: auto;
 }
-
+#time {
+	color: #ffffff;
+	position: absolute;
+	right: 100px;
+	top: 25px;
+}
 /*to accordion*/
 div.accordion {
 	position: relative;
