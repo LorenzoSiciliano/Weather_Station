@@ -69,7 +69,7 @@
         $newStation.append($stationInformation);
         $newStation.append($("<div>").html("City: " + allStationsNews[i].station.city+"<br>Province : " + allStationsNews[i].station.province.name + "<br>Region : " +allStationsNews[i].station.region.name + "<br>Nation : "+allStationsNews[i].station.nation.name)
                                       .addClass("nationInformation"));
-        timeoutId = setTimeout(update,30000);
+        timeoutId = setTimeout(function(){update();},10000);
     }
   })
   .fail(function(jqXHR, textStatus){
@@ -113,7 +113,7 @@ function update(){
       $($panelInformationIcon[i]).attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""));
       $nationInformation.html("City: " + allStationsNews[i].station.city+"<br>Province : " + allStationsNews[i].station.province.name + "<br>Region : " +allStationsNews[i].station.region.name + "<br>Nation : "+allStationsNews[i].station.nation.name);
     }
-    timeoutId = setTimeout(update,30000);  
+    timeoutId = setTimeout(function(){update();},10000);
   })
   .fail(function(jqXHR, textStatus){
     alert('Request failed: ' + textStatus);
@@ -125,7 +125,7 @@ $("#pauseUpdate").click(function(){
       clearTimeout(timeoutId);
     }else {
       isStopped = false;
-      timeoutId = setTimeout(update,30000);
+      timeoutId = setTimeout(function(){update();},10000);
     }
 });
 })()
