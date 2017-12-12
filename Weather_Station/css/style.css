@@ -26,6 +26,7 @@ body {
 .filter {
 	background-color: #000080;
 	padding: 15px;
+	position: relative;
 }
 
 #filter-station {
@@ -52,15 +53,22 @@ body {
 .filter > button {
 	background-color: #120A8F;
 	border-radius: 10px;
-	float: right;
 	width: 50px;
 	margin-right: 80px;
+	position: absolute;
+	right: -50px;
+	top: 15px;
 }
 .filter > button > img {
 	height: 30px;
 	width: auto;
 }
-
+#time {
+	color: #ffffff;
+	position: absolute;
+	right: 100px;
+	top: 25px;
+}
 /*to accordion*/
 div.accordion {
 	position: relative;
@@ -89,6 +97,7 @@ div.panel {
 .panel {
 	width: 100%;
 	height: 400px;
+	position: relative;
 }
 
 /*elements of the accordion*/
@@ -155,6 +164,14 @@ figcaption h2 {
 
 #loading p{
 	padding-top: 140px;
+}
+.nationInformation {
+	position: absolute;
+  right: 208px;
+	top: 15px;
+  font-size: 25px;
+  line-height: 45px;
+  color: #ffffff;
 }
 /* historical management
 .history {
