@@ -71,8 +71,11 @@
         $newStation.append($stationInformation);
         $newStation.append($("<div>").html("City: " + allStationsNews[i].station.city+"<br>Province : " + allStationsNews[i].station.province.name + "<br>Region : " +allStationsNews[i].station.region.name + "<br>Nation : "+allStationsNews[i].station.nation.name)
                                       .addClass("nationInformation"));
-       refresh(10000);
+
     }
+  })
+  .then(function(){
+      timerId = setTimeout(update,10000);
   })
   .fail(function(jqXHR, textStatus){
     $.ajax({
@@ -184,16 +187,12 @@ function update(){
       $nationInformation.html("City: " + allStationsNews[i].station.city+"<br>Province : " + allStationsNews[i].station.province.name + "<br>Region : " +allStationsNews[i].station.region.name + "<br>Nation : "+allStationsNews[i].station.nation.name);
     }
   })
+  .then(function(){
+    timerId = setTimeout(update,10000);
+  })
   .fail(function(jqXHR, textStatus){
     alert('Request failed: ' + textStatus);
-  });
-}
-
-function refresh(milliseconds) {
-  timerId = setTimeout(function updateInterval(){
-    update();
-    timerId = setTimeout(updateInterval,milliseconds);
-  }, milliseconds);
+  })
 }
 
 $("#pauseUpdate").click(function(){
@@ -201,7 +200,7 @@ $("#pauseUpdate").click(function(){
       clearTimeout(timeoutId);
     }else {
       isStopped = false;
-      refresh(10000);
+      timerId = setTimeout(update,10000);
     }
 });
 })()
