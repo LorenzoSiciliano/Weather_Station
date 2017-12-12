@@ -27,12 +27,10 @@
         }
         $("body").append($newAccordion);
         $newAccordion.click(function(){
-            $(this).addClass("active");
             var allAccordions = $(".accordion")
             var allPanels = $(".panel");
             for (var i = 0; i < allPanels.length; i++) {
               if ($(allPanels[i]).hasClass("open") == true) {
-                $(allAccordions[i]).removeClass("active");
                 $(allPanels[i]).stop();
                 $(allPanels[i]).removeClass("open");
                 $(allPanels[i]).slideUp();
@@ -44,7 +42,6 @@
                 $panel.stop();
                 $panel.removeClass("open");
                 $panel.slideUp();
-                $(this).removeClass("active");
             }  else {
                 $panel.stop();
                 $panel.addClass("open");
