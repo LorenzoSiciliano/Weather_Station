@@ -55,7 +55,8 @@
         $stationFigure.addClass("backimg");
         $newStation.append($stationFigure);
         $stationImg = $("<img>");
-        $stationImg.attr("src",(allStationsNews[i].station.webcam != "" ? allStationsNews[i].station.webcam : allStationsNews[i].station.image_url));
+        $stationImg.attr("src",(allStationsNews[i].station.webcam != "" ? allStationsNews[i].station.webcam : allStationsNews[i].station.image_url ));
+        $stationImg.bind("error", function(){$(this).attr('src', 'img/Placeholder.png')});
         $stationFigure.append($($stationImg));
         $stationFigure.append($("<figcaption>").text(allStationsNews[i].temperature + " °C ")
                                             .append($("<img>").attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""))));
@@ -78,9 +79,6 @@
     $(".accordion").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
-    /*$(".panel").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });*/
   });
 });
 
