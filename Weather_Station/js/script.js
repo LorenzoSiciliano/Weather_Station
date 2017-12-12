@@ -31,18 +31,6 @@
     });
   });
 
-  $(document).ready(function(){
-  $("#filter-station").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $(".accordion").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-    /*$(".panel").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });*/
-  });
-});
-
 function setInformation(information){
   $("#loading").hide();
   console.log(information);
