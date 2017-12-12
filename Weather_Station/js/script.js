@@ -31,7 +31,16 @@
       }
         $("body").append($newAccordion);
         $newAccordion.click(function(){
-          //this.classList.toggle("active");
+
+            var allAccordions = $(".accordion")
+            var allPanels = $(".panel");
+            for (var i = 0; i < allPanels.length; i++) {
+              if ($(allPanels[i]).hasClass("open") == true) {
+                $(allPanels[i]).stop();
+                $(allPanels[i]).removeClass("open");
+                $(allPanels[i]).slideUp();
+              }
+            }
 
             var panel = this.nextElementSibling;
             var $panel = $(panel);
@@ -53,13 +62,18 @@
         $stationFigure.addClass("backimg");
         $newStation.append($stationFigure);
         $stationImg = $("<img>");
-        $stationImg.attr("src",(allStationsNews[i].station.webcam != "" ? allStationsNews[i].station.webcam : allStationsNews[i].station.image_url));
+        $stationImg.attr("src",(allStationsNews[i].station.webcam != "" ? allStationsNews[i].station.webcam : allStationsNews[i].station.image_url ));
+        $stationImg.bind("error", function(){$(this).attr('src', 'img/Placeholder.png')});
         $stationFigure.append($($stationImg));
         $stationFigure.append($("<figcaption>").text(allStationsNews[i].temperature + " °C ")
                                             .append($("<img>").attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""))));
         var $stationInformation = $("<div>");
         $stationInformation.addClass("figcap");
         $newStation.append($stationInformation);
+        var $link = $("<a>");
+        $link.text("Link a Google Maps")
+        $link.attr("href", "https://www.google.it/maps/place/"+ allStationsNews[i].station.name)
+        $stationInformation.append($link);
     }
   })
   .fail(function(jqXHR, textStatus){
