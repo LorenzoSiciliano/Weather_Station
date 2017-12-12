@@ -35,6 +35,7 @@ function setInformation(information){
   $("#loading").hide();
   console.log(information);
     for (var i = 0;i < information.length; i++) {
+      creaSelect(response[i].station.nation.name);
       console.log(information[i]);
       var $newAccordion = $("<div>");
       $newAccordion.addClass("accordion");
@@ -42,27 +43,40 @@ function setInformation(information){
       $newFlag = $("<img>");
       $newFlag.addClass("flag");
       $newAccordion.append($newFlag);
-      switch (information[i].station.nation.name) {
+      switch (allStationsNews[i].station.nation.name) {
         case "Italia":  $newFlag.attr("src","img/italy.png");
+                        $newAccordion.addClass("accordion-italy");
                         break;
         case "Francia": $newFlag.attr("src","img/france.png");
+                        $newAccordion.addClass("accordion-france");
                         break;
         case "Svizzera":$newFlag.attr("src","img/switzerland.png");
+                        $newAccordion.addClass("accordion-switzerland");
                         break;
       }
       $("body").append($newAccordion);
       $newAccordion.click(function(){
-          this.classList.toggle("active");
-          var panel = this.nextElementSibling;
-          var $panel = $(panel);
-          $panel.stop();
-          if($panel.hasClass("open") == true){
-              $panel.removeClass("open");
-              $panel.slideUp();
-          }  else {
-              $panel.addClass("open");
-              $panel.slideToggle();
-            }
+
+           var allAccordions = $(".accordion")
+           var allPanels = $(".panel");
+           for (var i = 0; i < allPanels.length; i++) {
+             if ($(allPanels[i]).hasClass("open") == true) {
+               $(allPanels[i]).stop();
+               $(allPanels[i]).removeClass("open");
+               $(allPanels[i]).slideUp();
+             }
+           }
+           var panel = this.nextElementSibling;
+           var $panel = $(panel);
+           if($panel.hasClass("open") == true){
+                $panel.stop();
+                $panel.removeClass("open");
+                $panel.slideUp();
+            }  else {
+                $panel.stop();
+                $panel.addClass("open");
+                $panel.slideToggle();
+              }
       });
       var $newStation = $("<div>");
       $newStation.addClass("panel");
@@ -72,6 +86,7 @@ function setInformation(information){
       $newStation.append($stationFigure);
       $stationImg = $("<img>");
       $stationImg.attr("src",(information[i].station.webcam != "" ? information[i].station.webcam : information[i].station.image_url));
+      $stationImg.bind("error", function(){$(this).attr('src', 'img/Placeholder.png')});
       $stationFigure.append($($stationImg));
       var colorFigcaption = "";
       if (information[i].temperature > 10) {
@@ -89,6 +104,10 @@ function setInformation(information){
       $newStation.append($stationInformation);
       $newStation.append($("<div>").html("City: " + information[i].station.city+"<br>Province : " + information[i].station.province.name + "<br>Region : " +information[i].station.region.name + "<br>Nation : "+information[i].station.nation.name)
                                     .addClass("nationInformation"));
+      var $link = $("<a>");
+      $link.text("Link a Google Maps")
+      $link.attr("href", "https://www.google.it/maps/place/"+ allStationsNews[i].station.name)
+      $stationInformation.append($link);
   }
 }
 
