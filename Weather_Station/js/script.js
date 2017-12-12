@@ -2,7 +2,7 @@
   var allStationsNews = {};
   $.ajax({
     method: "GET",
-    url : "https://www.torinometeo.org/api/v1/realtime/data/",
+    url : "https://jsonblob.com/api/jsonBlob/8f73f269-d924-11e7-a24a-991ece7b105b",
     data: "json"
   })
   .done(function(response){
@@ -54,6 +54,10 @@
         var $stationInformation = $("<div>");
         $stationInformation.addClass("figcap");
         $newStation.append($stationInformation);
+        var $link = $("<a>");
+        $link.text("Link a Google Maps")
+        $link.attr("href", "https://www.google.it/maps/place/"+ allStationsNews[i].station.name)
+        $stationInformation.append($link);
     }
   })
   .fail(function(jqXHR, textStatus){
