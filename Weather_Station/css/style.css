@@ -157,7 +157,6 @@ figcaption h2 {
 	padding-top: 140px;
 }
 /* historical management
-
 .history {
 	display: table;
 	margin: 5px auto;
@@ -166,26 +165,21 @@ figcaption h2 {
 	color: #ffffff;
 	padding-bottom: 5px;
 }
-
 .history > h2,
 .history > h3,
 .history > p {
 	float: left;
 	padding: 10px;
 	text-align: center;
-
 }
-
 .history > h2 {
 	font-size: 18pt;
 }
-
 .history > h3 {
 	font-size: 16pt;
 	font-weight: bold;
 	padding: 0 20px;
 }
-
 .history > p{
 	font-size: 16pt;
 	padding: 0 20px;
