@@ -34,7 +34,15 @@
             this.classList.toggle("active");
             var panel = this.nextElementSibling;
             var $panel = $(panel);
-            $panel.slideToggle("slow");
+            if($panel.hasClass("open") == true){
+                 $panel.stop();
+                 $panel.removeClass("open");
+                 $panel.slideUp();
+             }  else {
+                 $panel.stop();
+                 $panel.addClass("open");
+                 $panel.slideToggle();
+               }
         });
         var $newStation = $("<div>");
         $newStation.addClass("panel");
