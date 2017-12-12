@@ -2,7 +2,7 @@
   var allStationsNews = {};
   $.ajax({
     method: "GET",
-    url : "https://www.torinometeo.org/api/v1/realtime/data/",
+    url : "https://jsonblob.com/api/jsonBlob/8f73f269-d924-11e7-a24a-991ece7b105b",
     data: "json"
   })
   .done(function(response){
@@ -31,7 +31,8 @@
       }
         $("body").append($newAccordion);
         $newAccordion.click(function(){
-            this.classList.toggle("active");
+          //this.classList.toggle("active");
+
             var panel = this.nextElementSibling;
             var $panel = $(panel);
             if($panel.hasClass("open") == true){
@@ -42,6 +43,7 @@
                  $panel.stop();
                  $panel.addClass("open");
                  $panel.slideToggle();
+
                }
         });
         var $newStation = $("<div>");
@@ -95,33 +97,49 @@ $(document).ready(function(){
 //questa funzione filtra le varie stazioni in base allo stato scelto e/o in base alla parola ricercata
 function filtraStati(){
 
-      for (var j = 0;j < allStationsNews.length; j++) {
-        if($("#filter-country").val()=="Italia"){
-                    $(".accordion").css("display","none");
-                    $(".accordion-italy").css("display","block");
-                  }//fine filtro italia
-       if($("#filter-country").val()=="Francia"){
-                            $(".accordion").css("display","none");
-                    $(".accordion-france").css("display","block");
-                  }//fine filtro francia
-        if($("#filter-country").val()=="Svizzera"){
-                    $(".accordion").css("display","none");
-                    $(".accordion-switzerland").css("display","block");
-                  }//fine filtro svizzera
-        if($("#filter-country").val()=="all"){
-                    $(".accordion").show();
-        }//fine filtro all
-      }//fine cicloprova
+      // for (var j = 0;j < allStationsNews.length; j++) {
+      //   if($("#filter-country").val()=="Italia"){
+      //               $(".accordion").css("display","none");
 
+      //               $(".accordion-italy").css("display","block");
+      //             }//fine filtro italia
+      //  if($("#filter-country").val()=="Francia"){
+      //                       $(".accordion").css("display","none");
+      //               $(".accordion-france").css("display","block");
+      //             }//fine filtro francia
+      //   if($("#filter-country").val()=="Svizzera"){
+      //               $(".accordion").css("display","none");
+      //               $(".accordion-switzerland").css("display","block");
+      //             }//fine filtro svizzera
+      //   if($("#filter-country").val()=="all"){
+      //               $(".accordion").show();
+      //   }//fine filtro all
+
+
+      // }//fine cicloprova
 var value = $("#filter-station").val().toLowerCase();
+
      for(key in allStationsNews){
+var checkCountry =  $("#filter-country").val()==allStationsNews[key].station.nation.name;
+
+if($($(".accordion")[key]).css("display","none")){
+               $($(".panel")[key]).hide();
+               console.log("aaaaa");
+}
+// if($($(".accordion")[key]).show() && $($(".panel .open")[key]).hide()){
+//               $($(".panel .open")[key]).show();
+// }
+
+
          $($(".accordion")[key]).toggle($($(".accordion")[key]).text().toLowerCase().indexOf(value) > -1
-          && ($("#filter-country").val()=="all" || $("#filter-country").val()==allStationsNews[key].station.nation.name) );
+          && ($("#filter-country").val()=="all" || checkCountry==true) );
+
+
+
+
+
+
        }
     }//fine funzione
-
-
-
-
 
 })()
