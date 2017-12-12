@@ -173,6 +173,14 @@ figcaption h2 {
   line-height: 45px;
   color: #ffffff;
 }
+
+.linkToGMaps {
+	position: absolute;
+	right: 267px;
+	top: 215px;
+	color: #ffffff;
+	font-size: 25px;
+}
 /* historical management
 .history {
 	display: table;

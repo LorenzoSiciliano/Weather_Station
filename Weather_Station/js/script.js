@@ -3,6 +3,7 @@
   var isStopped = false;
   var timeoutId = 0;
   var date = new Date();
+  var allStationsNews = {}
   $("#pauseUpdate").prop('disabled', true);
   $("#time").text(date.toUTCString());
   $.ajax({
@@ -33,17 +34,16 @@
 
 function setInformation(information){
   $("#loading").hide();
-  console.log(information);
+  allStationsNews = information;
     for (var i = 0;i < information.length; i++) {
-      creaSelect(response[i].station.nation.name);
-      console.log(information[i]);
+      creaSelect(information[i].station.nation.name);
       var $newAccordion = $("<div>");
       $newAccordion.addClass("accordion");
       $newAccordion.text(information[i].station.name);
       $newFlag = $("<img>");
       $newFlag.addClass("flag");
       $newAccordion.append($newFlag);
-      switch (allStationsNews[i].station.nation.name) {
+      switch (information[i].station.nation.name) {
         case "Italia":  $newFlag.attr("src","img/italy.png");
                         $newAccordion.addClass("accordion-italy");
                         break;
@@ -107,7 +107,8 @@ function setInformation(information){
                                     .addClass("nationInformation"));
       var $link = $("<a>");
       $link.text("Link a Google Maps")
-      $link.attr("href", "https://www.google.it/maps/place/"+ allStationsNews[i].station.name)
+      $link.attr("href", "https://www.google.it/maps/place/"+ information[i].station.name)
+      $link.addClass("linkToGMaps");
       $stationInformation.append($link);
   }
 }
@@ -119,6 +120,7 @@ function update(){
     data: "json"
   })
   .done(function(response){
+    allStationsNews = response;
     date = new Date();
     $("#time").text(date.toUTCString());
     var $accordions = $(".accordion");
