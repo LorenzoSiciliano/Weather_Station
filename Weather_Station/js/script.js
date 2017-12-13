@@ -6,6 +6,8 @@
   var allStationsNews = {}
   $("#pauseUpdate").prop('disabled', true);
   $("#time").text(date.toUTCString());
+
+  //server call to torinometeo to take the json with all the information
   $.ajax({
     method: "GET",
     url : "https://www.torinometeo.org/api/v1/realtime/data/",
@@ -19,6 +21,7 @@
       timerId = setTimeout(update,10000);
   })
   .fail(function(jqXHR, textStatus){
+    // server call to jsonBlob if torinometeo is not accessible
     $.ajax({
       method: "GET",
       url : "https://jsonblob.com/api/jsonBlob/8f73f269-d924-11e7-a24a-991ece7b105b",
@@ -31,7 +34,10 @@
        alert('Request failed: ' + textStatus);
     });
   });
-
+/*
+ *Set the information taken from the API in the DOM
+ *@param{Objects} information - the information taken from the API
+ */
 function setInformation(information){
   $("#loading").hide();
   allStationsNews = information;
@@ -112,7 +118,9 @@ function setInformation(information){
       $stationInformation.append($link);
   }
 }
-
+/*
+ * Update the dom with new information
+ */
 function update(){
   $.ajax({
     method: "GET",
