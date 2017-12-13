@@ -66,21 +66,29 @@ function setInformation(information){
                         $newAccordion.addClass("accordion-switzerland");
                         break;
       }
-
       $("body").append($newAccordion);
       ////////////////////////////// ACCORDION ANIMATION  ///////////////////////////////////
-      // calls the function when an accordion is clicked
+     // calls the function when an accordion is clicked
+      $newAccordion.click(function(){
+        var accordion = this;
+        var $accordion = $(accordion);
+        if($accordion.hasClass("clicked") == true){
+             $accordion.removeClass("clicked");
+         }  else {
+             $accordion.addClass("clicked");
+           }
+      });
       $newAccordion.click(function(){
 
-           var allAccordions = $(".accordion")
-           var allPanels = $(".panel");
-           // check if there is an open accordion and close it when another is clicked
-           for (var i = 0; i < allPanels.length; i++) {
-             if ($(allPanels[i]).hasClass("open") == true) {
-               $(allPanels[i]).stop();
-               $(allPanels[i]).removeClass("open");
-               $(allPanels[i]).slideUp();
-             }
+          var allAccordions = $(".accordion")
+          var allPanels = $(".panel");
+          for (var i = 0; i < allPanels.length; i++) {
+            if ($(allPanels[i]).hasClass("open") == true) {
+              $(allPanels[i]).stop();
+              $(allPanels[i]).removeClass("open");
+              $(allPanels[i]).slideUp();
+              $(allAccordions[i]).removeClass("clicked");
+            }
            }
            var panel = this.nextElementSibling;
           // opening and closing animation of the accordion
@@ -307,12 +315,16 @@ function filtraStati(information){
        for(key in information){
           var checkCountry =  $("#filter-country").val()==information[key].station.nation.name;
 
-          if($($(".accordion")[key]).css("display","none")){
-                         $($(".panel")[key]).hide();
-                         console.log("aaaaa");
-          }
+
           $($(".accordion")[key]).toggle($($(".accordion")[key]).text().toLowerCase().indexOf(value) > -1
           && ($("#filter-country").val()=="all" || checkCountry==true) );
+
+          if($($(".accordion")[key]).css('display') == 'none') {
+                         $($(".panel")[key]).hide();
+          }
+          if($($(".accordion")[key]).css('display') != 'none' && $($(".accordion")[key]).hasClass("clicked")) {
+                         $($(".panel")[key]).show();
+          }
          }
       }
 })()
