@@ -1,3 +1,9 @@
+/*
+ *@file: script.js
+ *@author: Michele Brescia, Loredana Frontino , Simone Marca, Lorenzo Siciliano
+ *@group : Group 6
+ *@exercise : Weather Station
+ */
 (function(){
   //indicates if the update is paused or not
   var isStopped = false;
