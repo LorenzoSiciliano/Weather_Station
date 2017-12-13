@@ -106,26 +106,21 @@ div.panel {
 	width: 50%;
 	height:400px;
 	float: left;
+	background-color: #120A8F;
 }
 
 .backimg > img {
 	width: 100%;
-	height: 100%;
+	height: auto;
 	float: left;
 }
 
 .backimg > figcaption {
 	background-color: rgba(0,0,128,0.7);
-    color:#ffffff;
-    padding: 30px;
-    overflow: hidden;
-    position: absolute;
-}
-
-figcaption h2 {
-	padding-left: 20px;
-	float: left;
-	font-size: 20pt;
+  color:#ffffff;
+  padding: 30px;
+  overflow: hidden;
+  position: absolute;
 }
 
 .figcap {
@@ -143,9 +138,26 @@ figcaption h2 {
 
 .figcap > p {
 	color: #ffffff;
-	font-size: 40px;
+	font-size: 22px;
 	text-align: center;
-	padding: 10px 0;
+	padding: 5% 0;
+	line-height: 35px;
+}
+
+.figcap > a {
+	width: 100%;
+	color: #ffffff;
+	font-size: 15px;
+	text-align: center;
+	text-decoration: none;
+	display: block;
+	padding: 2% 0;
+	margin-top: 10%;
+}
+
+.figcap > a:active, .figcap > a:hover {
+	color: #120A8F;
+	background-color: rgba(255, 255, 255, 0.5);
 }
 
 .flag {
@@ -156,25 +168,29 @@ figcaption h2 {
 
 #loading {
 	display: block;
-	text-align: center;
-	width: auto;
-	height: 300px;
-	background-color: #bdb7b7;
+	background-color: rgb(0, 169, 224);
 }
 
 #loading p{
-	padding-top: 140px;
-}
-.nationInformation {
+	font-size: 25px;
+	width: 100%;
+	padding: 5% 0;
 	position: absolute;
-  right: 208px;
-	top: 15px;
-  font-size: 25px;
-  line-height: 45px;
-  color: #ffffff;
+	text-align: center;
+	color: #ffffff;
 }
-/* historical management
-.history {
+
+#loading > img {
+	overflow: hidden;
+	position: fixed;
+	width: 100%;
+	widows: inherit;
+	top: -120px;
+	left: 0;
+}
+
+/*historical management*/
+.otherInformation {
 	display: table;
 	margin: 5px auto;
 	text-align: center;
@@ -182,23 +198,18 @@ figcaption h2 {
 	color: #ffffff;
 	padding-bottom: 5px;
 }
-.history > h2,
-.history > h3,
-.history > p {
+.otherInformation > h2,
+.otherInformation > p {
 	float: left;
-	padding: 10px;
+	padding: 5px;
 	text-align: center;
 }
-.history > h2 {
-	font-size: 18pt;
+.otherInformation > h2 {
+	font-size: 16px;
 }
-.history > h3 {
-	font-size: 16pt;
-	font-weight: bold;
-	padding: 0 20px;
+
+.otherInformation > p{
+	font-size: 14px;
+	padding: 0 15px;
 }
-.history > p{
-	font-size: 16pt;
-	padding: 0 20px;
-}
-end historical management*/
+/*end historical management*/
