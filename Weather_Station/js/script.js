@@ -62,10 +62,13 @@ function setInformation(information){
       }
 
       $("body").append($newAccordion);
+      ////////////////////////////// ACCORDION ANIMATION  ///////////////////////////////////
++      // calls the function when an accordion is clicked
       $newAccordion.click(function(){
 
            var allAccordions = $(".accordion")
            var allPanels = $(".panel");
+           // check if there is an open accordion and close it when another is clicked
            for (var i = 0; i < allPanels.length; i++) {
              if ($(allPanels[i]).hasClass("open") == true) {
                $(allPanels[i]).stop();
@@ -74,6 +77,7 @@ function setInformation(information){
              }
            }
            var panel = this.nextElementSibling;
+          // opening and closing animation of the accordion
            var $panel = $(panel);
            if($panel.hasClass("open") == true){
                 $panel.stop();
@@ -93,6 +97,7 @@ function setInformation(information){
       $newStation.append($stationFigure);
       $stationImg = $("<img>");
       $stationImg.attr("src",(information[i].station.webcam != "" ? information[i].station.webcam : information[i].station.image_url));
+      // if it does not find the image, insert a placeholder in its place 
       $stationImg.bind("error", function(){$(this).attr('src', 'img/Placeholder.png')});
       $stationFigure.append($($stationImg));
       var colorFigcaption = "";
