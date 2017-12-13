@@ -60,7 +60,7 @@
         $newStation.append($stationFigure);
         $stationImg = $("<img>");
         $stationImg.attr("src",(allStationsNews[i].station.webcam != "" ? allStationsNews[i].station.webcam : allStationsNews[i].station.image_url ));
-        // if it does not find the image, insert a placeholder in its place
+        // if it does not find the image, insert a placeholder in its place 
         $stationImg.bind("error", function(){$(this).attr('src', 'img/Placeholder.png')});
         $stationFigure.append($($stationImg));
         $stationFigure.append($("<figcaption>").text(allStationsNews[i].temperature + " °C ")
