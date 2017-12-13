@@ -178,17 +178,17 @@ $("#pauseUpdate").click(function(){
   ////////////////////////////// FILTRO RICERCA  ///////////////////////////////////
   //richiama la funzione filtraStati() quando si cambia il valore di $("#filter-country")
 $("#filter-country").change(function(){
-  filtraStati();
+  filtraStati(allStationsNews);
 });
 //richiama la funzione filtraStati() quando si preme un tasto in $("#filter-station")
 $(document).ready(function(){
       $("#filter-station").on("keyup", function() {
 
-    filtraStati();
+    filtraStati(allStationsNews);
   });
 });
 //questa funzione filtra le varie stazioni in base allo stato scelto e/o in base alla parola ricercata
-function filtraStati(){
+function filtraStati(information){
 
       // for (var j = 0;j < allStationsNews.length; j++) {
       //   if($("#filter-country").val()=="Italia"){
@@ -212,8 +212,8 @@ function filtraStati(){
       // }//fine cicloprova
 var value = $("#filter-station").val().toLowerCase();
 
-     for(key in allStationsNews){
-var checkCountry =  $("#filter-country").val()==allStationsNews[key].station.nation.name;
+     for(key in information){
+var checkCountry =  $("#filter-country").val()==information[key].station.nation.name;
 
 if($($(".accordion")[key]).css("display","none")){
                $($(".panel")[key]).hide();
