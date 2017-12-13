@@ -103,17 +103,27 @@ function setInformation(information){
       var $stationInformation = $("<div>");
       $stationInformation.addClass("figcap");
       $newStation.append($stationInformation);
-      $newStation.append($('<div>').html("City: " + information[i].station.city+"<br>Province : " + information[i].station.province.name + "<br>Region : " +information[i].station.region.name + "<br>Nation : "+information[i].station.nation.name)
+      $stationInformation.append($('<p>').html("City: " + information[i].station.city+"<br>Province : " + information[i].station.province.name + "<br>Region : " +information[i].station.region.name + "<br>Nation : "+information[i].station.nation.name)
                                     .addClass("nationInformation"));
+
+      var $otherInformation = $("<div>");
+      $otherInformation.addClass("otherInformation");
+      $stationInformation.append($otherInformation);
+      $otherInformation.append($('<h2>').text("dewpoint"));
+      $otherInformation.append($('<h2>').text("pressure"));
+      $otherInformation.append($('<h2>').text("rain"));
+      var $otherInformation2 = $("<div>");
+      $otherInformation2.addClass("otherInformation");
+      $stationInformation.append($otherInformation2);
+      $otherInformation2.append($('<p>').text(information[i].dewpoint).addClass("info1"));
+      $otherInformation2.append($('<p>').text(information[i].pressure).addClass("info2"));
+      $otherInformation2.append($('<p>').text(information[i].rain).addClass("info3"));
+
       var $link = $("<a>");
       $link.text("Link a Google Maps")
       $link.attr("href", "https://www.google.it/maps/place/"+ information[i].station.name)
       $link.addClass("linkToGMaps");
       $stationInformation.append($link);
-
-      $newStation.append($('<div>').html("min & max temperature: " + information[i].station.temperature_min +" - " + information[i].station.temperature_max + "<br>dewpoint : " +information[i].dewpoint
- + "<br>pressure : "+information[i].pressure + "<br>rain : "+information[i].rain)
-                                    .addClass("otherInformation"));
   }
 }
 
@@ -130,7 +140,10 @@ function update(){
     var $accordions = $(".accordion");
     var $panelInformation = $(".panel figcaption");
     var $panelInformationIcon = $(".panel figcaption img");
-    var $nationInformation = $("nationInformation");
+    var $moreInformation1 = $(".info1");
+    var $moreInformation2 = $(".info2");
+    var $moreInformation3 = $(".info3");
+
     for (var i = 0;i < allStationsNews.length; i++) {
       $($accordions[i]).text(response[i].station.name);
       $($panelInformation[i]).text(response[i].temperature + " °C ");
@@ -140,9 +153,10 @@ function update(){
       else {
         $($panelInformation[i]).css("color","#90b4ed");
       }
-    //  $($panelInformationIcon[i]).attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""));
-      $nationInformation.html("City: " + response[i].station.city+"<br>Province : " + response[i].station.province.name + "<br>Region : " +response[i].station.region.name + "<br>Nation : "+response[i].station.nation.name);
-
+    $($panelInformationIcon[i]).attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""));
+    $($moreInformation1[i]).text(response[i].dewpoint);
+    $($moreInformation2[i]).text(response[i].pressure);
+    $($moreInformation3[i]).text(response[i].rain);
     }
   })
   .then(function(){
