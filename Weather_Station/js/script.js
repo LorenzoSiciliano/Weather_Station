@@ -5,7 +5,7 @@
   var date = new Date();
   var allStationsNews = {}
   $("#pauseUpdate").prop('disabled', true);
-  $("#time").text(date.toUTCString());
+  $("#time").text(printData(date));
 
   //server call to torinometeo to take the json with all the information
   $.ajax({
@@ -151,7 +151,7 @@ function update(){
   .done(function(response){
     allStationsNews = response;
     date = new Date();
-    $("#time").text(date.toUTCString());
+    $("#time").text(printData(date));
     var $accordions = $(".accordion");
     var $panelInformation = $(".panel figcaption");
     var $moreInformation1 = $(".info1");
@@ -161,19 +161,19 @@ function update(){
     for (var i = 0;i < allStationsNews.length; i++) {
       $newFlag = $("<img>");
       $newFlag.addClass("flag");
-      $($accordion[i]).append($newFlag);
+      $($accordions[i]).append($newFlag);
       switch (response[i].station.nation.name) {
         case "Italia":  $newFlag.attr("src","img/italy.png");
-                        $newAccordion.addClass("accordion-italy");
+                        $($accordions[i]).addClass("accordion-italy");
                         break;
         case "Francia": $newFlag.attr("src","img/france.png");
-                        $newAccordion.addClass("accordion-france");
+                        $($accordions[i]).addClass("accordion-france");
                         break;
         case "Svizzera":$newFlag.attr("src","img/switzerland.png");
-                        $newAccordion.addClass("accordion-switzerland");
+                        $($accordions[i]).addClass("accordion-switzerland");
                         break;
       }
-      $($panelInformation[i]).text(response[i].temperature + " °C ").append($("<img>").attr("src",(information[i].weather_icon != null ? information[i].weather_icon.icon : "")));
+      $($panelInformation[i]).text(response[i].temperature + " °C ").append($("<img>").attr("src",(response[i].weather_icon != null ? response[i].weather_icon.icon : "")));
       if (allStationsNews[i].temperature > 10) {
           $($panelInformation[i]).css("color","red");
       }
@@ -207,6 +207,65 @@ $("#pauseUpdate").click(function(){
       timerId = setTimeout(update,30000);
     }
 });
+// return a string with the format of the date
+function printData(date){
+  var str = "";
+  switch (date.getDay()) {
+    case 0: str += "Dom "
+            break;
+    case 1: str += "Lun "
+            break;
+    case 2: str += "Mar "
+            break;
+    case 3: str += "Mer "
+            break;
+    case 4: str += "Gio "
+            break;
+    case 5: str += "Ven "
+            break;
+    case 6: str += "Sab "
+            break;
+    case 0: str += "Lun "
+            break;
+    default: str += "";
+  }
+  if ( date.getDate() > 9) {
+    str += date.getDate()
+  }
+  else{
+    str += "0" + date.getDate();
+  }
+  str += "/";
+  if ( date.getMonth() > 9) {
+    str += date.getMonth()
+  }
+  else{
+    str += "0" + date.getMonth();
+  }
+  str += "/";
+  str += date.getFullYear() + " ";
+  if ( date.getHours() > 9) {
+    str += date.getHours()
+  }
+  else{
+    str += "0" + date.getHours();
+  }
+  str += ":";
+  if ( date.getMinutes() > 9) {
+    str += date.getMinutes()
+  }
+  else{
+    str += "0" + date.getMinutes();
+  }
+  str += ":";
+  if ( date.getSeconds() > 9) {
+    str += date.getSeconds()
+  }
+  else{
+    str += "0" + date.getSeconds();
+  }
+  return str;
+}
 
   function creaSelect(nazione){
 
@@ -238,49 +297,16 @@ $(document).ready(function(){
 });
 //questa funzione filtra le varie stazioni in base allo stato scelto e/o in base alla parola ricercata
 function filtraStati(information){
+  var value = $("#filter-station").val().toLowerCase();
+       for(key in information){
+          var checkCountry =  $("#filter-country").val()==information[key].station.nation.name;
 
-      // for (var j = 0;j < allStationsNews.length; j++) {
-      //   if($("#filter-country").val()=="Italia"){
-      //               $(".accordion").css("display","none");
-
-      //               $(".accordion-italy").css("display","block");
-      //             }//fine filtro italia
-      //  if($("#filter-country").val()=="Francia"){
-      //                       $(".accordion").css("display","none");
-      //               $(".accordion-france").css("display","block");
-      //             }//fine filtro francia
-      //   if($("#filter-country").val()=="Svizzera"){
-      //               $(".accordion").css("display","none");
-      //               $(".accordion-switzerland").css("display","block");
-      //             }//fine filtro svizzera
-      //   if($("#filter-country").val()=="all"){
-      //               $(".accordion").show();
-      //   }//fine filtro all
-
-
-      // }//fine cicloprova
-var value = $("#filter-station").val().toLowerCase();
-
-     for(key in information){
-var checkCountry =  $("#filter-country").val()==information[key].station.nation.name;
-
-if($($(".accordion")[key]).css("display","none")){
-               $($(".panel")[key]).hide();
-               console.log("aaaaa");
-}
-// if($($(".accordion")[key]).show() && $($(".panel .open")[key]).hide()){
-//               $($(".panel .open")[key]).show();
-// }
-
-
-         $($(".accordion")[key]).toggle($($(".accordion")[key]).text().toLowerCase().indexOf(value) > -1
+          if($($(".accordion")[key]).css("display","none")){
+                         $($(".panel")[key]).hide();
+                         console.log("aaaaa");
+          }
+          $($(".accordion")[key]).toggle($($(".accordion")[key]).text().toLowerCase().indexOf(value) > -1
           && ($("#filter-country").val()=="all" || checkCountry==true) );
-
-
-
-
-
-
-       }
-    }//fine funzione
+         }
+      }
 })()
