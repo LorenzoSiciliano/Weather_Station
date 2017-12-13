@@ -8,7 +8,7 @@
   $("#time").text(date.toUTCString());
   $.ajax({
     method: "GET",
-    url : "https://jsonblob.com/api/jsonBlob/8f73f269-d924-11e7-a24a-991ece7b105b",
+    url : "https://www.torinometeo.org/api/v1/realtime/data/",
     data: "json"
   })
   .done(function(response){
