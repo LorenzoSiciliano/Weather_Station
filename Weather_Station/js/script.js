@@ -18,7 +18,7 @@
     setInformation(response);
   })
   .then(function(){
-      timerId = setTimeout(update,10000);
+      timerId = setTimeout(update,30000);
   })
   .fail(function(jqXHR, textStatus){
     // server call to jsonBlob if torinometeo is not accessible
@@ -97,6 +97,7 @@ function setInformation(information){
       $newStation.append($stationFigure);
       $stationImg = $("<img>");
       $stationImg.attr("src",(information[i].station.webcam != "" ? information[i].station.webcam : information[i].station.image_url));
+
       // if it does not find the image on the server, insert a placeholder in its place
       $stationImg.bind("error", function(){$(this).attr('src', 'img/Placeholder.png')});
       $stationFigure.append($($stationImg));
@@ -159,8 +160,21 @@ function update(){
     var $moreInformation3 = $(".info3");
 
     for (var i = 0;i < allStationsNews.length; i++) {
-      $($accordions[i]).text(response[i].station.name);
-      $($panelInformation[i]).text(response[i].temperature + " °C ");
+      $newFlag = $("<img>");
+      $newFlag.addClass("flag");
+      $($accordion[i]).append($newFlag);
+      switch (response[i].station.nation.name) {
+        case "Italia":  $newFlag.attr("src","img/italy.png");
+                        $newAccordion.addClass("accordion-italy");
+                        break;
+        case "Francia": $newFlag.attr("src","img/france.png");
+                        $newAccordion.addClass("accordion-france");
+                        break;
+        case "Svizzera":$newFlag.attr("src","img/switzerland.png");
+                        $newAccordion.addClass("accordion-switzerland");
+                        break;
+      }
+      $($panelInformation[i]).text(response[i].temperature + " °C ").append($("<img>").attr("src",(information[i].weather_icon != null ? information[i].weather_icon.icon : "")));
       if (allStationsNews[i].temperature > 10) {
           $($panelInformation[i]).css("color","red");
       }
@@ -174,20 +188,25 @@ function update(){
     }
   })
   .then(function(){
-    timerId = setTimeout(update,10000);
+    if (!isStopped) {
+    timerId = setTimeout(update,30000);
+    }
   })
   .fail(function(jqXHR, textStatus){
     alert('Request failed: ' + textStatus);
   })
 }
 
-
+//pause the update or restart it
 $("#pauseUpdate").click(function(){
     if (!isStopped) {
+      $("#pauseUpdate img").attr("src","img/play.png");
+      isStopped = true;
       clearTimeout(timeoutId);
     }else {
+      $("#pauseUpdate img").attr("src","img/play.png");
       isStopped = false;
-      timerId = setTimeout(update,10000);
+      timerId = setTimeout(update,30000);
     }
 });
 
