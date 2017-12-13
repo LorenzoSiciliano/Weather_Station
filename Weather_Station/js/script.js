@@ -154,7 +154,6 @@ function update(){
     $("#time").text(date.toUTCString());
     var $accordions = $(".accordion");
     var $panelInformation = $(".panel figcaption");
-    var $panelInformationIcon = $(".panel figcaption img");
     var $moreInformation1 = $(".info1");
     var $moreInformation2 = $(".info2");
     var $moreInformation3 = $(".info3");
@@ -181,7 +180,6 @@ function update(){
       else {
         $($panelInformation[i]).css("color","#90b4ed");
       }
-    $($panelInformationIcon[i]).attr("src",(allStationsNews[i].weather_icon != null ? allStationsNews[i].weather_icon.icon : ""));
     $($moreInformation1[i]).text(response[i].dewpoint);
     $($moreInformation2[i]).text(response[i].pressure);
     $($moreInformation3[i]).text(response[i].rain);
