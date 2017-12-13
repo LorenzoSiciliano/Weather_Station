@@ -103,13 +103,17 @@ function setInformation(information){
       var $stationInformation = $("<div>");
       $stationInformation.addClass("figcap");
       $newStation.append($stationInformation);
-      $newStation.append($("<div>").html("City: " + information[i].station.city+"<br>Province : " + information[i].station.province.name + "<br>Region : " +information[i].station.region.name + "<br>Nation : "+information[i].station.nation.name)
+      $newStation.append($('<div>').html("City: " + information[i].station.city+"<br>Province : " + information[i].station.province.name + "<br>Region : " +information[i].station.region.name + "<br>Nation : "+information[i].station.nation.name)
                                     .addClass("nationInformation"));
       var $link = $("<a>");
       $link.text("Link a Google Maps")
       $link.attr("href", "https://www.google.it/maps/place/"+ information[i].station.name)
       $link.addClass("linkToGMaps");
       $stationInformation.append($link);
+
+      $newStation.append($('<div>').html("min & max temperature: " + information[i].station.temperature_min +" - " + information[i].station.temperature_max + "<br>dewpoint : " +information[i].dewpoint
+ + "<br>pressure : "+information[i].pressure + "<br>rain : "+information[i].rain)
+                                    .addClass("otherInformation"));
   }
 }
 
