@@ -63,7 +63,7 @@ function setInformation(information){
 
       $("body").append($newAccordion);
       ////////////////////////////// ACCORDION ANIMATION  ///////////////////////////////////
-+      // calls the function when an accordion is clicked
+      // calls the function when an accordion is clicked
       $newAccordion.click(function(){
 
            var allAccordions = $(".accordion")
@@ -117,7 +117,7 @@ function setInformation(information){
       $newStation.append($("<div>").html("City: " + information[i].station.city+"<br>Province : " + information[i].station.province.name + "<br>Region : " +information[i].station.region.name + "<br>Nation : "+information[i].station.nation.name)
                                     .addClass("nationInformation"));
       var $link = $("<a>");
-      //create a link to Google Maps for selected location 
+      //create a link to Google Maps for selected location
       $link.text("Link a Google Maps")
       $link.attr("href", "https://www.google.it/maps/place/"+ information[i].station.name)
       $link.addClass("linkToGMaps");
