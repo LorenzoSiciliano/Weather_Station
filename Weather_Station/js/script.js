@@ -3,11 +3,14 @@
   var isStopped = false;
   var timeoutId = 0;
   var date = new Date();
+  var allStationsNews = {}
   $("#pauseUpdate").prop('disabled', true);
   $("#time").text(date.toUTCString());
+
+  //server call to torinometeo to take the json with all the information
   $.ajax({
     method: "GET",
-    url : "https://jsonblob.com/api/jsonBlob/8f73f269-d924-11e7-a24a-991ece7b105b",
+    url : "https://www.torinometeo.org/api/v1/realtime/data/",
     data: "json"
   })
   .done(function(response){
@@ -15,9 +18,10 @@
     setInformation(response);
   })
   .then(function(){
-      timerId = setTimeout(update,10000);
+      timerId = setTimeout(update,30000);
   })
   .fail(function(jqXHR, textStatus){
+    // server call to jsonBlob if torinometeo is not accessible
     $.ajax({
       method: "GET",
       url : "https://jsonblob.com/api/jsonBlob/8f73f269-d924-11e7-a24a-991ece7b105b",
@@ -30,20 +34,22 @@
        alert('Request failed: ' + textStatus);
     });
   });
-
+/*
+ *Set the information taken from the API in the DOM
+ *@param{Objects} information - the information taken from the API
+ */
 function setInformation(information){
   $("#loading").hide();
-  console.log(information);
+  allStationsNews = information;
     for (var i = 0;i < information.length; i++) {
-      creaSelect(response[i].station.nation.name);
-      console.log(information[i]);
+      creaSelect(information[i].station.nation.name);
       var $newAccordion = $("<div>");
       $newAccordion.addClass("accordion");
       $newAccordion.text(information[i].station.name);
       $newFlag = $("<img>");
       $newFlag.addClass("flag");
       $newAccordion.append($newFlag);
-      switch (allStationsNews[i].station.nation.name) {
+      switch (information[i].station.nation.name) {
         case "Italia":  $newFlag.attr("src","img/italy.png");
                         $newAccordion.addClass("accordion-italy");
                         break;
@@ -56,10 +62,13 @@ function setInformation(information){
       }
 
       $("body").append($newAccordion);
+      ////////////////////////////// ACCORDION ANIMATION  ///////////////////////////////////
+      // calls the function when an accordion is clicked
       $newAccordion.click(function(){
 
            var allAccordions = $(".accordion")
            var allPanels = $(".panel");
+           // check if there is an open accordion and close it when another is clicked
            for (var i = 0; i < allPanels.length; i++) {
              if ($(allPanels[i]).hasClass("open") == true) {
                $(allPanels[i]).stop();
@@ -68,6 +77,7 @@ function setInformation(information){
              }
            }
            var panel = this.nextElementSibling;
+          // opening and closing animation of the accordion
            var $panel = $(panel);
            if($panel.hasClass("open") == true){
                 $panel.stop();
@@ -87,6 +97,7 @@ function setInformation(information){
       $newStation.append($stationFigure);
       $stationImg = $("<img>");
       $stationImg.attr("src",(information[i].station.webcam != "" ? information[i].station.webcam : information[i].station.image_url));
+      // if it does not find the image, insert a placeholder in its place
       $stationImg.bind("error", function(){$(this).attr('src', 'img/Placeholder.png')});
       $stationFigure.append($($stationImg));
       var colorFigcaption = "";
@@ -107,11 +118,14 @@ function setInformation(information){
                                     .addClass("nationInformation"));
       var $link = $("<a>");
       $link.text("Link a Google Maps")
-      $link.attr("href", "https://www.google.it/maps/place/"+ allStationsNews[i].station.name)
+      $link.attr("href", "https://www.google.it/maps/place/"+ information[i].station.name)
+      $link.addClass("linkToGMaps");
       $stationInformation.append($link);
   }
 }
-
+/*
+ * Update the dom with new information
+ */
 function update(){
   $.ajax({
     method: "GET",
@@ -119,15 +133,29 @@ function update(){
     data: "json"
   })
   .done(function(response){
+    allStationsNews = response;
     date = new Date();
     $("#time").text(date.toUTCString());
     var $accordions = $(".accordion");
     var $panelInformation = $(".panel figcaption");
-    var $panelInformationIcon = $(".panel figcaption img");
+    //var $panelInformationIcon = $(".panel figcaption img");
     var $nationInformation = $("nationInformation");
     for (var i = 0;i < allStationsNews.length; i++) {
-      $($accordions[i]).text(response[i].station.name);
-      $($panelInformation[i]).text(response[i].temperature + " °C ");
+      $newFlag = $("<img>");
+      $newFlag.addClass("flag");
+      $($accordion[i]).append($newFlag);
+      switch (response[i].station.nation.name) {
+        case "Italia":  $newFlag.attr("src","img/italy.png");
+                        $newAccordion.addClass("accordion-italy");
+                        break;
+        case "Francia": $newFlag.attr("src","img/france.png");
+                        $newAccordion.addClass("accordion-france");
+                        break;
+        case "Svizzera":$newFlag.attr("src","img/switzerland.png");
+                        $newAccordion.addClass("accordion-switzerland");
+                        break;
+      }
+      $($panelInformation[i]).text(response[i].temperature + " °C ").append($("<img>").attr("src",(information[i].weather_icon != null ? information[i].weather_icon.icon : "")));
       if (allStationsNews[i].temperature > 10) {
           $($panelInformation[i]).css("color","red");
       }
@@ -140,20 +168,25 @@ function update(){
     }
   })
   .then(function(){
-    timerId = setTimeout(update,10000);
+    if (!isStopped) {
+    timerId = setTimeout(update,30000);
+    }
   })
   .fail(function(jqXHR, textStatus){
     alert('Request failed: ' + textStatus);
   })
 }
 
-
+//pause the update or restart it
 $("#pauseUpdate").click(function(){
     if (!isStopped) {
+      $("#pauseUpdate img").attr("src","img/play.png");
+      isStopped = true;
       clearTimeout(timeoutId);
     }else {
+      $("#pauseUpdate img").attr("src","img/play.png");
       isStopped = false;
-      timerId = setTimeout(update,10000);
+      timerId = setTimeout(update,30000);
     }
 });
 
@@ -176,17 +209,17 @@ $("#pauseUpdate").click(function(){
   ////////////////////////////// FILTRO RICERCA  ///////////////////////////////////
   //richiama la funzione filtraStati() quando si cambia il valore di $("#filter-country")
 $("#filter-country").change(function(){
-  filtraStati();
+  filtraStati(allStationsNews);
 });
 //richiama la funzione filtraStati() quando si preme un tasto in $("#filter-station")
 $(document).ready(function(){
       $("#filter-station").on("keyup", function() {
 
-    filtraStati();
+    filtraStati(allStationsNews);
   });
 });
 //questa funzione filtra le varie stazioni in base allo stato scelto e/o in base alla parola ricercata
-function filtraStati(){
+function filtraStati(information){
 
       // for (var j = 0;j < allStationsNews.length; j++) {
       //   if($("#filter-country").val()=="Italia"){
@@ -210,8 +243,8 @@ function filtraStati(){
       // }//fine cicloprova
 var value = $("#filter-station").val().toLowerCase();
 
-     for(key in allStationsNews){
-var checkCountry =  $("#filter-country").val()==allStationsNews[key].station.nation.name;
+     for(key in information){
+var checkCountry =  $("#filter-country").val()==information[key].station.nation.name;
 
 if($($(".accordion")[key]).css("display","none")){
                $($(".panel")[key]).hide();
