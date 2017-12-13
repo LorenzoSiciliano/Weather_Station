@@ -31,6 +31,15 @@
       }
         $("body").append($newAccordion);
         $newAccordion.click(function(){
+          var accordion = this;
+          var $accordion = $(accordion);
+          if($accordion.hasClass("clicked") == true){
+               $accordion.removeClass("clicked");
+           }  else {
+               $accordion.addClass("clicked");
+             }
+        });
+        $newAccordion.click(function(){
 
             var allAccordions = $(".accordion")
             var allPanels = $(".panel");
@@ -39,8 +48,13 @@
                 $(allPanels[i]).stop();
                 $(allPanels[i]).removeClass("open");
                 $(allPanels[i]).slideUp();
+                $(allAccordions[i]).removeClass("clicked");
               }
+
+
             }
+
+
 
             var panel = this.nextElementSibling;
             var $panel = $(panel);
@@ -48,13 +62,15 @@
                  $panel.stop();
                  $panel.removeClass("open");
                  $panel.slideUp();
+
+
              }  else {
                  $panel.stop();
                  $panel.addClass("open");
                  $panel.slideToggle();
-
                }
         });
+
         var $newStation = $("<div>");
         $newStation.addClass("panel");
         $("body").append($newStation);
@@ -75,6 +91,9 @@
         $link.attr("href", "https://www.google.it/maps/place/"+ allStationsNews[i].station.name)
         $stationInformation.append($link);
     }
+
+
+
   })
   .fail(function(jqXHR, textStatus){
     alert('Request failed: ' + textStatus);
@@ -136,17 +155,28 @@ var value = $("#filter-station").val().toLowerCase();
      for(key in allStationsNews){
 var checkCountry =  $("#filter-country").val()==allStationsNews[key].station.nation.name;
 
-if($($(".accordion")[key]).css("display","none")){
-               $($(".panel")[key]).hide();
-               console.log("aaaaa");
-}
-// if($($(".accordion")[key]).show() && $($(".panel .open")[key]).hide()){
-//               $($(".panel .open")[key]).show();
+
+// if($($(".panel")[key]).hasClass("open") && $($(".panel")[key]).css("display","none") && $($(".accordion")[key]).show()){
+//   console.log("visibile");
+//    $($(".panel")[key]).css("display","block");
 // }
+
+
 
 
          $($(".accordion")[key]).toggle($($(".accordion")[key]).text().toLowerCase().indexOf(value) > -1
           && ($("#filter-country").val()=="all" || checkCountry==true) );
+
+
+
+          if($($(".accordion")[key]).css('display') == 'none') {
+                         $($(".panel")[key]).hide();
+          }
+          if($($(".accordion")[key]).css('display') != 'none' && $($(".accordion")[key]).hasClass("clicked")) {
+                         $($(".panel")[key]).show();
+          }
+
+
 
 
 
@@ -155,5 +185,9 @@ if($($(".accordion")[key]).css("display","none")){
 
        }
     }//fine funzione
+
+
+
+
 
 })()
